@@ -7,10 +7,13 @@ from llama_index.core import Settings
 from llama_index.llms.ollama import Ollama
 from llama_index.embeddings.ollama import OllamaEmbedding
 
-ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-Settings.llm = Ollama(model='llama3.2:latest',
-                      request_timeout=3600.0, temperature=1)
+ollama_base_url = os.getenv("OLLAMA_HOST")
+Settings.llm = Ollama(base_url=ollama_base_url,
+                        model='gemma2:latest',
+                        request_timeout=3600.0,
+                        temperature=1)
 Settings.embed_model = OllamaEmbedding(
+    base_url=ollama_base_url,
     model_name='nomic-embed-text')
 
 
@@ -42,11 +45,11 @@ with gr.Blocks() as demo:
 
     gr.Markdown(
         """
-    # Phi3 3.8B
+    # Gemma2:9b
 
     ## Agentic RAG with Reasoning Loop
 
-    - ***LLM:*** Phi3 Mini
+    - ***LLM:*** Gemma2:9b
     - ***Embedding:*** nomic-embed-text
     - ***Framework:*** Llama Index
 
